@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.66.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/skeleton.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="SpeechResearch">
+<title>Controllable Accented Text-to-Speech Synthesis with Fine and Coarse-Grained Intensity Rendering</title>
+</head>
+<body>
+
+<div class="container">
+	<main role="main">
+		<article>
+      
+      <h2 class="title">Controllable Accented Text-to-Speech Synthesis with Fine and Coarse-Grained Intensity Rendering</h2>
+      
+      <p class="authors"><b>Authors:</b> Rui Liu, Berrak Sisman, Guanglai Gao, Haizhou Li</p>
+      <br>
+      <div class="abstract">
+        <p><strong>Abstract</strong><br>
+          Accented text-to-speech (TTS) synthesis seeks to generate speech with an accent (L2) as a variant of the standard version (L1). Accented TTS synthesis is challenging as L2 is different from L1 in both terms of phonetic rendering and prosody pattern. Furthermore, there is no intuitive solution to the control of the accent intensity for an utterance in both fine and coarse-grained level, that are phoneme and utterance level respectively. In this work, we propose a neural TTS architecture, that allows us to control the accent and its intensity during inference. This is achieved through three novel mechanisms, 1) an accent variance adaptor to model the complex accent variance with three prosody controlling factors, namely pitch, energy and duration; 2) an automatic speech recognition (ASR) based accent intensity modeling strategy to quantify the accent intensity in both phoneme and utterance level; 3) a consistency constraint module to encourage the TTS system to render the expected accent intensity at a fine level. Experiments show that the proposed system attains superior performance to the baseline models in terms of accent rendering and intensity control. To our best knowledge, this is the first study of accented TTS synthesis with explicit intensity control at both fine and coarse-grained level.</p>
+      </div>
+
+   <br> <br>
+      <img src="fig1.jpg" width="100%">
+<img src="fig2.jpg" width="100%">
+  
+      <h5 class="section">Audio Quality of CTA-TTS</h5>
+
+
+      <!-- (4) -->
+      <p class="transcript"><em> Unconsciously, our yells and exclamations yielded to this rhythm. <br> (Speaker: TXHC; Accent: Mandarin)</em></p>
+      <table>
+        <thead style="border-bottom: 1px solid #E1E1E1;"><tr>
+        <th>GT</th>
+        <th>GT (mel+HiFi-GAN)</th>
+        <th>Tacotron2 (mel+HiFi-GAN)</th>
+        <th>Transformer TTS (mel+HiFi-GAN)</th>
+        <th>FastSpeech2 (mel+HiFi-GAN)</th>
+        <th>CTA-TTS (mel+HiFi-GAN)</th>
+        <th>CTA-TTS w/o phoneme pitch & energy (mel+HiFi-GAN)</th>
+        <th>CTA-TTS w/o accent intensity (mel+HiFi-GAN)</th>
+        <th>CTA-TTS w/o consistency constraint (mel+HiFi-GAN)</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><audio controls="controls"><source src="audios/AQ/GT/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+            <td><audio controls="controls"><source src="audios/AQ/GT_mel/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+            <td><audio controls="controls"><source src="audios/AQ/T2/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+            <td><audio controls="controls"><source src="audios/AQ/TT/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+            <td><audio controls="controls"><source src="audios/AQ/FS2/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+            <td><audio controls="controls"><source src="audios/AQ/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+            <td><audio controls="controls"><source src="audios/AQ/CTA-TTS-ab1/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+            <td><audio controls="controls"><source src="audios/AQ/CTA-TTS-ab1/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+            <td><audio controls="controls"><source src="audios/AQ/CTA-TTS-ab1/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC.wav" autoplay/>Your browser does not support the audio element.</audio></td>  
+          </tr>
+      </table>
+
+ 
+ 
+
+      <h5 class="section">Fine-Grained (Phoneme-level) Accent Intensity Control</h5>
+
+      <!-- (5) -->
+      <p class="transcript"><em>Unconsciously, our yells and exclamations yielded to this rhythm. <br> (Speaker: TXHC; Accent: Mandarin)</em></p>
+       <h6>Phoneme Sequence: <font color=blue>AH2 N K AA1 N SH AH0 S L IY0 sp AW1 ER0 Y EH1 L Z AE1 N D sp EH2 K S K L AH0 M EY1 SH AH0 N Z sp Y IY1 L D IH0 D T UW1 DH IH1 S R IH1 DH AH0 M.</font></h6>
+
+      <table>
+      <tr>  <h6>Sample (1): </h6></tr>
+      <tr> <font color=blue>AH2 <font color=red>(0.9)</font> N <font color=red>(0.9)</font> K <font color=red>(0.9)</font> AA1 <font color=red>(0.9)</font> N <font color=red>(0.9)</font> SH <font color=red>(0.9)</font> AH0 <font color=red>(0.9)</font> S <font color=red>(0.9)</font> L <font color=red>(0.9)</font> IY0 <font color=red>(0.9)</font> sp AW1 <font color=orange>(0.1)</font> ER0 <font color=orange>(0.1)</font> Y <font color=red>(0.9)</font> EH1 <font color=red>(0.9)</font> L <font color=red>(0.9)</font> Z <font color=red>(0.9)</font> AE1 <font color=orange>(0.1)</font> N <font color=orange>(0.1)</font> <font color=orange>(0.1)</font> D <font color=orange>(0.1)</font> sp EH2 <font color=red>(0.9)</font> K <font color=red>(0.9)</font> S <font color=red>(0.9)</font> K <font color=red>(0.9)</font> L <font color=red>(0.9)</font> AH0 <font color=red>(0.9)</font> M <font color=red>(0.9)</font> EY1 <font color=red>(0.9)</font> SH <font color=red>(0.9)</font> AH0 <font color=red>(0.9)</font> N <font color=red>(0.9)</font> Z <font color=red>(0.9)</font> sp Y <font color=orange>(0.1)</font> IY1 <font color=orange>(0.1)</font> L <font color=orange>(0.1)</font> D <font color=orange>(0.1)</font> IH0 <font color=orange>(0.1)</font> D <font color=orange>(0.1)</font> T <font color=orange>(0.1)</font> UW1 <font color=orange>(0.1)</font> DH <font color=orange>(0.1)</font> IH1 <font color=orange>(0.1)</font> S <font color=orange>(0.1)</font> R <font color=orange>(0.1)</font> IH1 <font color=orange>(0.1)</font> DH <font color=orange>(0.1)</font> AH0 <font color=orange>(0.1)</font> M <font color=orange>(0.1)</font>.</font></tr>
+      <tr> <td><img src="audios/part2/1.png" width="100%"> </td> <td><audio controls="controls"><source src="audios/part2/1.wav" autoplay/>Your browser does not support the audio element.</audio></td></tr>
+      </table>
+
+
+      <table>
+      <tr>  <h6>Sample (2): </h6></tr>
+      <tr> <font color=blue>AH2 <font color=red>(0.9)</font> N <font color=red>(0.9)</font> K <font color=red>(0.9)</font> AA1 <font color=red>(0.9)</font> N <font color=red>(0.9)</font> SH <font color=red>(0.9)</font> AH0 <font color=red>(0.9)</font> S <font color=red>(0.9)</font> L <font color=red>(0.9)</font> IY0 <font color=red>(0.9)</font> sp AW1 <font color=orange>(0.1)</font> ER0 <font color=orange>(0.1)</font> Y <font color=orange>(0.1)</font> EH1 <font color=orange>(0.1)</font> L <font color=orange>(0.1)</font> Z <font color=orange>(0.1)</font> AE1 <font color=orange>(0.1)</font> N <font color=orange>(0.1)</font> <font color=orange>(0.1)</font> D <font color=orange>(0.1)</font> sp EH2 <font color=orange>(0.1)</font> K <font color=orange>(0.1)</font> S <font color=orange>(0.1)</font> K <font color=orange>(0.1)</font> L <font color=orange>(0.1)</font> AH0 <font color=orange>(0.1)</font> M <font color=orange>(0.1)</font> EY1 <font color=orange>(0.1)</font> SH <font color=orange>(0.1)</font> AH0 <font color=orange>(0.1)</font> N <font color=orange>(0.1)</font> Z <font color=orange>(0.1)</font> sp Y <font color=orange>(0.1)</font> IY1 <font color=orange>(0.1)</font> L <font color=orange>(0.1)</font> D <font color=orange>(0.1)</font> IH0 <font color=orange>(0.1)</font> D <font color=orange>(0.1)</font> T <font color=orange>(0.1)</font> UW1 <font color=orange>(0.1)</font> DH <font color=orange>(0.1)</font> IH1 <font color=orange>(0.1)</font> S <font color=orange>(0.1)</font> R <font color=orange>(0.1)</font> IH1 <font color=orange>(0.1)</font> DH <font color=orange>(0.1)</font> AH0 <font color=orange>(0.1)</font> M <font color=orange>(0.1)</font>.</font></tr>
+      <tr> <td><img src="audios/part2/2.png" width="100%"> </td> <td><audio controls="controls"><source src="audios/part2/2.wav" autoplay/>Your browser does not support the audio element.</audio></td></tr>
+      </table>
+
+
+
+      <table>
+      <tr>  <h6>Sample (3): </h6></tr>
+      <tr> <font color=blue>AH2 <font color=orange>(0.1)</font> N <font color=orange>(0.1)</font> K <font color=orange>(0.1)</font> AA1 <font color=orange>(0.1)</font> N <font color=orange>(0.1)</font>SH <font color=orange>(0.1)</font> AH0  <font color=orange>(0.1)</font> S <font color=orange>(0.1)</font> L <font color=orange>(0.1)</font> IY0 <font color=orange>(0.1)</font> sp AW1 <font color=orange>(0.1)</font> ER0 <font color=orange>(0.1)</font> Y <font color=orange>(0.1)</font> EH1 <font color=orange>(0.1)</font> L <font color=orange>(0.1)</font> Z <font color=orange>(0.1)</font> AE1 <font color=orange>(0.1)</font> N <font color=orange>(0.1)</font> <font color=orange>(0.1)</font> D <font color=orange>(0.1)</font> sp EH2 <font color=orange>(0.1)</font> K <font color=orange>(0.1)</font> S <font color=orange>(0.1)</font> K <font color=orange>(0.1)</font> L <font color=orange>(0.1)</font> AH0 <font color=orange>(0.1)</font> M <font color=orange>(0.1)</font> EY1 <font color=orange>(0.1)</font> SH <font color=orange>(0.1)</font> AH0 <font color=orange>(0.1)</font> N <font color=orange>(0.1)</font> Z <font color=orange>(0.1)</font> sp Y <font color=orange>(0.1)</font> IY1 <font color=orange>(0.1)</font> L <font color=orange>(0.1)</font> D <font color=orange>(0.1)</font> IH0 <font color=orange>(0.1)</font> D <font color=orange>(0.1)</font> T <font color=orange>(0.1)</font> UW1 <font color=orange>(0.1)</font> DH <font color=orange>(0.1)</font> IH1 <font color=orange>(0.1)</font> S <font color=orange>(0.1)</font> R <font color=orange>(0.1)</font> IH1 <font color=orange>(0.1)</font> DH <font color=orange>(0.1)</font> AH0 <font color=orange>(0.1)</font> M <font color=orange>(0.1)</font>.</font></tr>
+      <tr> <td><img src="audios/part2/3.png" width="100%"> </td> <td><audio controls="controls"><source src="audios/part2/3.wav" autoplay/>Your browser does not support the audio element.</audio></td></tr>
+      </table>
+
+ 
+
+      <h5 class="section">Coarse-Grained (Utterance-level) Accent Intensity Control</h5>
+      
+
+<!-- (5) -->
+      <p class="transcript"><em>Unconsciously, our yells and exclamations yielded to this rhythm. <br> (Speaker: TXHC; Accent: Mandarin)</em></p>
+      <table>
+        <thead style="border-bottom: 1px solid #E1E1E1;"><tr>
+        <th>CTA-TTS <br>(accent intensity = 0.1)</th>
+        <th>CTA-TTS <br>(accent intensity = 0.2)</th>
+        <th>CTA-TTS <br>(accent intensity = 0.3)</th>
+        <th>CTA-TTS <br>(accent intensity = 0.4)</th>
+        <th>CTA-TTS <br>(accent intensity = 0.5)</th>
+        <th>CTA-TTS <br>(accent intensity = 0.6)</th>
+        <th>CTA-TTS <br>(accent intensity = 0.7)</th>
+        <th>CTA-TTS <br>(accent intensity = 0.8)</th>
+        <th>CTA-TTS <br>(accent intensity = 0.9)</th>
+        </tr></thead>
+        <tbody>
+        <tr>
+          <td>
+            <img src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.1_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.1_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.2_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.2_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.3_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.3_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.4_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.4_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.5_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.5_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.6_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.6_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.7_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.7_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.8_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.8_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.9_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.9_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <table>
+        <thead style="border-bottom: 1px solid #E1E1E1;"><tr>
+        <th>CTA-TTS w/o consistency constraint <br>(accent intensity = 0.1)</th>
+        <th>CTA-TTS w/o consistency constraint <br>(accent intensity = 0.2)</th>
+        <th>CTA-TTS w/o consistency constraint <br>(accent intensity = 0.3)</th>
+        <th>CTA-TTS w/o consistency constraint <br>(accent intensity = 0.4)</th>
+        <th>CTA-TTS w/o consistency constraint <br>(accent intensity = 0.5)</th>
+        <th>CTA-TTS w/o consistency constraint <br>(accent intensity = 0.6)</th>
+        <th>CTA-TTS w/o consistency constraint <br>(accent intensity = 0.7)</th>
+        <th>CTA-TTS w/o consistency constraint <br>(accent intensity = 0.8)</th>
+        <th>CTA-TTS w/o consistency constraint <br>(accent intensity = 0.9)</th>
+        </tr></thead>
+        <tbody>
+        <tr>
+          <td>
+            <img src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.1_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.1_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.2_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.2_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.3_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.3_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.4_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.4_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.5_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.5_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.6_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.6_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.7_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.7_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.8_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.8_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+          <td>
+            <img src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.9_900000.png" width="100%">
+            <audio controls="controls"><source src="audios/UC/CTA-TTS-ab3/Unconsciously_our_yells_and_exclamations_yielded_to_this_rhythm_TXHC_0.9_900000.wav" autoplay/>Your browser does not support the audio element.</audio>
+          </td>
+        
+        </tr>
+        </tbody>
+      </table>
+
+      <h5 class="section">Comparison with Domain Adversarial Weight </h5>
+
+      <!-- (1) -->
+      <p class="transcript"><em> Unconsciously, our yells and exclamations yielded to this rhythm. <br> (Speaker: TXHC; Accent: Mandarin)</em></p>
+      <table>
+        <thead style="border-bottom: 1px solid #E1E1E1;"><tr>
+         <th>GT</th>
+        <th>DAW (Intensity = "strong")</th>
+        <th>CTA-TTS (Intensity = "strong")</th>
+
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><audio controls="controls"><source src="audios/part1/GT-1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+
+            <td><audio controls="controls"><source src="audios/part1/DAW-1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+
+            <td><audio controls="controls"><source src="audios/part1/CTA-TTS-1.wav" autoplay/>Your browser does not support the audio element.</audio></td>
+
+          </tr>
+      </table>
+
+
+ 
+<br><br><br><br>
+
+		</article>
+	</main>
+
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+</body>
+</html>
